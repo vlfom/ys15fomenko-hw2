@@ -13,11 +13,15 @@ public class TSTree {
     private int size;
 
     public TSTree() {
+        root = new Node();
     }
 
     public TSTree(Node root) {
-        this.root = root;
-        this.size = toTupleArray().size();
+        this();
+        if( root != null ) {
+            this.root = root;
+            this.size = toTupleArray().size();
+        }
     }
 
     public int size() {
