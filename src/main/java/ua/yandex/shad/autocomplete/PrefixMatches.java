@@ -7,6 +7,8 @@ import ua.yandex.shad.tries.Tuple;
 
 public class PrefixMatches {
 
+    private static final int DEFAULT_HINTS = 3;
+
     private Trie trie;
 
     public PrefixMatches() {
@@ -41,12 +43,12 @@ public class PrefixMatches {
         Iterable<String> words = trie.wordsWithPrefix(pref);
         DynamicArray<String> matchWords = new DynamicArray<>(words);
         DynamicArray<String> bestWords = new DynamicArray<>();
-        int lastLen = 0;
+        int lastLen = 0, remK = k;
         for (int i = 0; i < matchWords.size(); ++i) {
             String word = matchWords.get(i);
             if (word.length() != lastLen) {
-                --k;
-                if (k < 0) {
+                --remK;
+                if (remK < 0) {
                     return bestWords;
                 }
                 lastLen = word.length();
@@ -57,7 +59,7 @@ public class PrefixMatches {
     }
 
     public Iterable<String> wordsWithPrefix(String pref) {
-        return wordsWithPrefix(pref, 3);
+        return wordsWithPrefix(pref, DEFAULT_HINTS);
     }
 
     public int size() {

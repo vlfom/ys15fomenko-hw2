@@ -22,12 +22,12 @@ public class DynamicArray<T extends Comparable> implements Iterable<T> {
         }
     }
 
-    private void ensureCapacity(int capacity) {
-        if (this.capacity < capacity) {
-            while (this.capacity < capacity) {
-                this.capacity *= 2;
+    private void ensureCapacity(int cap) {
+        if (capacity < cap) {
+            while (capacity < cap) {
+                capacity *= 2;
             }
-            elements = Arrays.copyOf(elements, this.capacity);
+            elements = Arrays.copyOf(elements, capacity);
         }
     }
 
@@ -99,11 +99,17 @@ public class DynamicArray<T extends Comparable> implements Iterable<T> {
     }
 
     private class Itr implements Iterator<T> {
-        int cursor;
-        int lastRet;
+        private int cursor;
 
         private Itr() {
-            lastRet = -1;
+        }
+
+        public int getCursor() {
+            return cursor;
+        }
+
+        public void setCursor(int cursor) {
+            this.cursor = cursor;
         }
 
         public boolean hasNext() {
@@ -116,7 +122,7 @@ public class DynamicArray<T extends Comparable> implements Iterable<T> {
                 throw new NoSuchElementException();
             } else {
                 cursor = i + 1;
-                return (T) elements[this.lastRet = i];
+                return (T) elements[i];
             }
         }
 

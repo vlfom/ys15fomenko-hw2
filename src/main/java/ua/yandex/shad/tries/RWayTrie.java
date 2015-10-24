@@ -30,7 +30,7 @@ public class RWayTrie implements Trie {
     private static int getNodeIndex(String s) {
         char a = Character.toLowerCase(s.charAt(0)),
                 b = Character.toLowerCase(s.charAt(1));
-        return (a - 'a') * R + (b - 'a');
+        return (a - 'a') * R + b - 'a';
     }
 
     private static String getNodeString(int v) {
@@ -39,8 +39,8 @@ public class RWayTrie implements Trie {
 
     @Override
     public void add(Tuple t) {
-        boolean added = node[getNodeIndex(t.term)].add(t.term.substring(2), t
-                .weight);
+        boolean added = node[getNodeIndex(t.getTerm())].add(t.getTerm()
+                .substring(2), t.getWeight());
         if (added) {
             size++;
         }
@@ -67,26 +67,26 @@ public class RWayTrie implements Trie {
         for (int i = 0; i < R * R; ++i) {
             tuples = node[i].toTupleArray();
             for (Tuple tuple : tuples) {
-                allTuples.add(new Tuple(getNodeString(i) + tuple.term, tuple
-                        .weight));
+                allTuples.add(new Tuple(getNodeString(i) + tuple.getTerm(),
+                        tuple.getWeight()));
             }
         }
         allTuples.sort();
         DynamicArray<String> words = new DynamicArray<>();
         for (Tuple tuple : allTuples) {
-            words.add(tuple.term);
+            words.add(tuple.getTerm());
         }
         return words;
     }
 
     @Override
     public Iterable<String> wordsWithPrefix(String s) {
-        DynamicArray<Tuple> tuples = (new TSTree(node[getNodeIndex(s)].find(s
-                .substring(2)))).toTupleArray();
+        DynamicArray<Tuple> tuples = new TSTree(node[getNodeIndex(s)].find(s
+                .substring(2))).toTupleArray();
         tuples.sort();
         DynamicArray<String> words = new DynamicArray<>();
         for (Tuple tuple : tuples) {
-            words.add(s + tuple.term);
+            words.add(s + tuple.getTerm());
         }
         return words;
     }

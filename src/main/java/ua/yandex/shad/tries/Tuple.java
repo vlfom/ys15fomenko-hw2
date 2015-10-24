@@ -1,23 +1,40 @@
 package ua.yandex.shad.tries;
 
 public class Tuple implements Comparable {
-    public final String term;
-    public final int weight;
+    private final String term;
+    private final int weight;
 
     public Tuple(String term, int weight) {
         this.term = term;
         this.weight = weight;
     }
 
+    public String getTerm() {
+        return term;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
     @Override
-    public int compareTo(Object o) {
-        int wo = ((Tuple) o).weight;
-        if (weight < wo) {
+    public boolean equals(Object x) {
+        if (!(x instanceof Tuple)) {
+            return false;
+        }
+        Tuple o = (Tuple) x;
+        return o.term.equals(this.term) && o.weight == this.weight;
+    }
+
+    @Override
+    public int compareTo(Object x) {
+        Tuple o = (Tuple) x;
+        if (weight < o.weight) {
             return -1;
-        } else if (weight > wo) {
+        } else if (weight > o.weight) {
             return 1;
         } else {
-            return this.term.compareTo(((Tuple) o).term);
+            return this.term.compareTo(o.term);
         }
     }
 }

@@ -24,13 +24,13 @@ public class TSTree {
         return size;
     }
 
-    public boolean add(String s, Integer value) {
+    public boolean add(String s, int value) {
         int remSize = size;
         root = add(root, s, 0, value);
         return size != remSize;
     }
 
-    private Node add(Node x, String s, int i, Integer value) {
+    private Node add(Node x, String s, int i, int value) {
         char c = s.charAt(i);
         if (x == null) {
             x = new Node();
@@ -43,7 +43,7 @@ public class TSTree {
         } else if (i + 1 < s.length()) {
             x.middle = add(x.middle, s, i + 1, value);
         } else {
-            if (x.value == null) {
+            if (x.value == -1) {
                 size += 1;
             }
             x.value = value;
@@ -82,15 +82,14 @@ public class TSTree {
         if (x == null) {
             return false;
         }
-        char c = s.charAt(i);
-        if (c < x.c) {
+        if (s.charAt(i) < x.c) {
             return contains(x.left, s, i);
-        } else if (c > x.c) {
+        } else if (s.charAt(i) > x.c) {
             return contains(x.right, s, i);
         } else if (i + 1 < s.length()) {
             return contains(x.middle, s, i + 1);
         } else {
-            return x.value != null;
+            return x.value != -1;
         }
     }
 
@@ -102,15 +101,14 @@ public class TSTree {
         if (x == null) {
             return false;
         }
-        char c = s.charAt(i);
         boolean r;
-        if (c < x.c) {
+        if (s.charAt(i) < x.c) {
             r = remove(x.left, s, i);
             if (r && emptyNode(x.left)) {
                 x.left = null;
             }
             return r;
-        } else if (c > x.c) {
+        } else if (s.charAt(i) > x.c) {
             r = remove(x.right, s, i);
             if (r && emptyNode(x.right)) {
                 x.right = null;
@@ -123,15 +121,15 @@ public class TSTree {
             }
             return r;
         } else {
-            x.value = null;
+            x.value = -1;
             size -= 1;
             return true;
         }
     }
 
     private boolean emptyNode(Node x) {
-        return x.value == null && x.left == null && x.middle == null && x
-                .right == null;
+        return x.value == -1 && x.left == null && x.middle == null && x.right
+                == null;
     }
 
     public DynamicArray<Tuple> toTupleArray() {
@@ -144,7 +142,7 @@ public class TSTree {
         if (x == null) {
             return;
         }
-        if (x.value != null) {
+        if (x.value != -1) {
             tuples.add(new Tuple(s + x.c, x.value));
         }
         if (x.left != null) {
@@ -158,12 +156,13 @@ public class TSTree {
         }
     }
 
-    private class Node {
-        public char c;
-        public Integer value;
+    private static class Node {
+        private char c;
+        private int value;
         private Node left, middle, right;
 
         Node() {
+            this.value = -1;
         }
     }
 }
