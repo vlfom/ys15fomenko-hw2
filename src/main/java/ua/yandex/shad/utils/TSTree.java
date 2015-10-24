@@ -18,7 +18,7 @@ public class TSTree {
 
     public TSTree(Node root) {
         this();
-        if( root != null ) {
+        if (root != null) {
             this.root = root;
             this.size = toTupleArray().size();
         }
@@ -37,21 +37,21 @@ public class TSTree {
     private Node add(Node x, String s, int i, int value) {
         char c = s.charAt(i);
         if (c < x.c) {
-            if( x.left == null ) {
+            if (x.left == null) {
                 x.left = new Node();
                 x.left.c = s.charAt(i);
             }
             x.left = add(x.left, s, i, value);
         } else if (c > x.c) {
-            if( x.right == null ) {
+            if (x.right == null) {
                 x.right = new Node();
                 x.right.c = s.charAt(i);
             }
             x.right = add(x.right, s, i, value);
         } else if (i + 1 < s.length()) {
-            if( x.middle == null ) {
+            if (x.middle == null) {
                 x.middle = new Node();
-                x.middle.c = s.charAt(i+1);
+                x.middle.c = s.charAt(i + 1);
             }
             x.middle = add(x.middle, s, i + 1, value);
         } else {
@@ -151,9 +151,6 @@ public class TSTree {
     }
 
     private void collectNodes(Node x, String s) {
-        if (x == null) {
-            return;
-        }
         if (x.value != -1) {
             tuples.add(new Tuple(s + x.c, x.value));
         }

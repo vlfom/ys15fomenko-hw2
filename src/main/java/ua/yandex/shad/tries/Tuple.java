@@ -40,7 +40,6 @@ public class Tuple implements Comparable {
 
     @Override
     public int hashCode() {
-        assert false : "hashCode not designed";
         return 42;
     }
 }

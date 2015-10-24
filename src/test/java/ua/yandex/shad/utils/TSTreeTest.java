@@ -30,7 +30,7 @@ public class TSTreeTest {
     public void testSizeAddRemove() throws Exception {
         assertEquals(9, tsTree.size());
 
-        tsTree = new TSTree();
+        tsTree = new TSTree(null);
         assertEquals(0, tsTree.size());
 
         tsTree.add("apple", 5);

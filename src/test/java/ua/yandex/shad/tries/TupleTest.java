@@ -21,8 +21,11 @@ public class TupleTest {
         assertTrue(tuple3.compareTo(tuple1) > 0);
         assertTrue(tuple4.compareTo(tuple1) > 0);
 
+        assertFalse(tuple1.equals(new Integer(0)));
         assertTrue(tuple1.equals(tuple2));
         assertFalse(tuple1.equals(tuple3));
         assertFalse(tuple1.equals(tuple5));
+
+        assertEquals(42, tuple1.hashCode());
     }
 }
