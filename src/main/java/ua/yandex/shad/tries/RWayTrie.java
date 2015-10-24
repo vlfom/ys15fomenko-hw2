@@ -8,11 +8,13 @@ public class RWayTrie implements Trie {
     private static final String[] NODES_STRING;
 
     static {
-        NODES_STRING = new String[R*R];
-        for(int i = 0 ; i < R ; ++i )
-            for(int j = 0 ; j < R; ++j)
-                NODES_STRING[i*R + j] = String.valueOf((char)('a' + i)) +
-                        String.valueOf((char)('a' + j));
+        NODES_STRING = new String[R * R];
+        for (int i = 0; i < R; ++i) {
+            for (int j = 0; j < R; ++j) {
+                NODES_STRING[i * R + j] = String.valueOf((char) ('a' + i)) +
+                        String.valueOf((char) ('a' + j));
+            }
+        }
     }
 
     private int size;
@@ -71,8 +73,9 @@ public class RWayTrie implements Trie {
         }
         allTuples.sort();
         DynamicArray<String> words = new DynamicArray<>();
-        for(Tuple tuple: allTuples)
+        for (Tuple tuple : allTuples) {
             words.add(tuple.term);
+        }
         return words;
     }
 
@@ -82,8 +85,9 @@ public class RWayTrie implements Trie {
                 .substring(2)))).toTupleArray();
         tuples.sort();
         DynamicArray<String> words = new DynamicArray<>();
-        for(Tuple tuple: tuples)
+        for (Tuple tuple : tuples) {
             words.add(s + tuple.term);
+        }
         return words;
     }
 

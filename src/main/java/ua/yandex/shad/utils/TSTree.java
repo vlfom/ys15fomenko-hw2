@@ -17,6 +17,7 @@ public class TSTree {
 
     public TSTree(Node root) {
         this.root = root;
+        this.size = toTupleArray().size();
     }
 
     public int size() {
@@ -51,8 +52,9 @@ public class TSTree {
     }
 
     public Node find(String s) {
-        if(s.isEmpty())
+        if (s.isEmpty()) {
             return root;
+        }
         return find(root, s, 0);
     }
 
@@ -122,12 +124,14 @@ public class TSTree {
             return r;
         } else {
             x.value = null;
+            size -= 1;
             return true;
         }
     }
 
     private boolean emptyNode(Node x) {
-        return x.left == null && x.middle == null && x.right == null;
+        return x.value == null && x.left == null && x.middle == null && x
+                .right == null;
     }
 
     public DynamicArray<Tuple> toTupleArray() {
@@ -137,8 +141,9 @@ public class TSTree {
     }
 
     private void collectNodes(Node x, String s) {
-        if( x == null )
+        if (x == null) {
             return;
+        }
         if (x.value != null) {
             tuples.add(new Tuple(s + x.c, x.value));
         }

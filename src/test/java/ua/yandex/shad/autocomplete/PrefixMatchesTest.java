@@ -3,7 +3,6 @@ package ua.yandex.shad.autocomplete;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ua.yandex.shad.collections.DynamicArray;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,18 +15,6 @@ import static org.junit.Assert.*;
 public class PrefixMatchesTest {
     PrefixMatches prefixMatches;
 
-    private static class Utils {
-        public static int iterableSize(Iterable i) {
-            Iterator x = i.iterator();
-            int size = 0;
-            while( x.hasNext() ) {
-                ++size;
-                x.next();
-            }
-            return size;
-        }
-    }
-
     @Before
     public void setUp() throws Exception {
         File file = new File("resources/words-test.txt");
@@ -38,7 +25,7 @@ public class PrefixMatchesTest {
         long w;
         String word;
         String[] words = new String[n];
-        for(int i = 0; i < n ; ++i) {
+        for (int i = 0; i < n; ++i) {
             w = scanner.nextLong();
             word = scanner.next();
             words[k++] = word;
@@ -93,7 +80,10 @@ public class PrefixMatchesTest {
 
     @Test
     public void testWordsWithPrefix() throws Exception {
-        Iterable < String > matches;
+        Iterable<String> matches;
+
+        matches = prefixMatches.wordsWithPrefix("a", 3);
+        assertEquals(matches, null);
 
         matches = prefixMatches.wordsWithPrefix("nike", 1);
         assertEquals(Utils.iterableSize(matches), 3);
@@ -113,15 +103,27 @@ public class PrefixMatchesTest {
         assertEquals(prefixMatches.size(), remSize);
 
         prefixMatches.load("dummystring");
-        assertEquals(prefixMatches.size(), remSize+1);
+        assertEquals(prefixMatches.size(), remSize + 1);
 
         prefixMatches.delete("world");
         assertEquals(prefixMatches.size(), remSize);
 
         prefixMatches.delete("dummystring");
-        assertEquals(prefixMatches.size(), remSize-1);
+        assertEquals(prefixMatches.size(), remSize - 1);
 
         prefixMatches.load("world");
         assertEquals(prefixMatches.size(), remSize);
+    }
+
+    private static class Utils {
+        public static int iterableSize(Iterable i) {
+            Iterator x = i.iterator();
+            int size = 0;
+            while (x.hasNext()) {
+                ++size;
+                x.next();
+            }
+            return size;
+        }
     }
 }

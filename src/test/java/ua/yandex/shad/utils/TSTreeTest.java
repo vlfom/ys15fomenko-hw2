@@ -3,51 +3,95 @@ package ua.yandex.shad.utils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ua.yandex.shad.collections.DynamicArray;
+import ua.yandex.shad.tries.Tuple;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by root on 22.10.15.
- */
 public class TSTreeTest {
+    TSTree tsTree;
 
     @Before
     public void setUp() throws Exception {
-
+        String[] words = {"java", "javac", "javavm", "javadoc", "word",
+                "words", "wordy", "wordpad", "wordface"};
+        tsTree = new TSTree();
+        for (String word : words) {
+            tsTree.add(word, word.length());
+        }
     }
 
     @After
     public void tearDown() throws Exception {
-
+        tsTree = null;
     }
 
     @Test
-    public void testSize() throws Exception {
+    public void testSizeAddRemove() throws Exception {
+        assertEquals(9, tsTree.size());
 
-    }
+        tsTree = new TSTree();
+        assertEquals(0, tsTree.size());
 
-    @Test
-    public void testAdd() throws Exception {
+        tsTree.add("apple", 5);
+        assertEquals(1, tsTree.size());
 
+        tsTree.add("egg", 3);
+        assertEquals(2, tsTree.size());
+
+        tsTree.add("apple", 5);
+        assertEquals(2, tsTree.size());
+
+        tsTree.remove("abble");
+        assertEquals(2, tsTree.size());
+
+        tsTree.remove("apple");
+        assertEquals(1, tsTree.size());
+
+        tsTree.remove("egg");
+        assertEquals(0, tsTree.size());
+
+        tsTree.add("banana", 6);
+        tsTree.add("article", 7);
+        assertEquals(2, tsTree.size());
+
+        tsTree.remove("article");
+        assertEquals(1, tsTree.size());
+
+        tsTree.remove("banana");
+        assertEquals(0, tsTree.size());
     }
 
     @Test
     public void testFind() throws Exception {
+        Object node;
+        node = tsTree.find("egg");
+        assertNull(node);
 
+        TSTree nodeTree = new TSTree(tsTree.find("ja"));
+        assertEquals(4, nodeTree.size());
     }
 
     @Test
     public void testContains() throws Exception {
+        assertTrue(tsTree.contains("java"));
+        assertTrue(tsTree.contains("javac"));
+        assertFalse(tsTree.contains("javab"));
 
+        tsTree.remove("javac");
+        assertTrue(tsTree.contains("java"));
+        assertFalse(tsTree.contains("javac"));
+
+        tsTree.remove("java");
+        assertFalse(tsTree.contains("java"));
     }
 
     @Test
-    public void testRemove() throws Exception {
-
-    }
-
-    @Test
-    public void testToStaticArray() throws Exception {
-
+    public void testToTupleArray() throws Exception {
+        DynamicArray<Tuple> tuples = tsTree.toTupleArray();
+        assertEquals(9, tuples.size());
+        for (Tuple tuple : tuples) {
+            assertEquals(tuple.weight, tuple.term.length());
+        }
     }
 }

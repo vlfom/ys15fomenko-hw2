@@ -26,20 +26,8 @@ public class PrefixMatches {
         return trie.size() - remSize;
     }
 
-    public int load(Tuple... tuples) {
-        int remSize = trie.size();
-        for (Tuple tuple : tuples) {
-            if (tuple.term.length() > 2) {
-                trie.add(tuple);
-            }
-        }
-        return trie.size() - remSize;
-    }
-
     public boolean contains(String word) {
-        if( word.length() <= 2 )
-            return false;
-        return trie.contains(word);
+        return word.length() > 2 && trie.contains(word);
     }
 
     public boolean delete(String word) {

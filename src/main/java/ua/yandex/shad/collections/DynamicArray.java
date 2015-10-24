@@ -1,9 +1,6 @@
 package ua.yandex.shad.collections;
 
-import ua.yandex.shad.tries.Tuple;
-
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -18,10 +15,10 @@ public class DynamicArray<T extends Comparable> implements Iterable<T> {
         elements = new Object[DEFAULT_CAPACITY];
     }
 
-    public DynamicArray(Iterable<T> tuples) {
+    public DynamicArray(Iterable<T> ts) {
         elements = new Object[DEFAULT_CAPACITY];
-        for (T tuple : tuples) {
-            add(tuple);
+        for (T t : ts) {
+            add(t);
         }
     }
 
@@ -74,10 +71,10 @@ public class DynamicArray<T extends Comparable> implements Iterable<T> {
     private int partition(int l, int r) {
         T temp;
         int i;
-        i = l + (r-l)/2;
+        i = l + (r - l) / 2;
         temp = (T) elements[i];
-        elements[i] = elements[r-1];
-        elements[r-1] = temp;
+        elements[i] = elements[r - 1];
+        elements[r - 1] = temp;
         i = l;
         for (int j = l; j < r - 1; ++j) {
             if (((T) elements[j]).compareTo(elements[r - 1]) <= 0) {
@@ -101,15 +98,6 @@ public class DynamicArray<T extends Comparable> implements Iterable<T> {
         }
     }
 
-    @Override
-    public String toString() {
-        String s = "";
-        for (int i = 0; i < size; ++i) {
-            s += elements[i] + " ";
-        }
-        return s;
-    }
-
     private class Itr implements Iterator<T> {
         int cursor;
         int lastRet;
@@ -128,7 +116,7 @@ public class DynamicArray<T extends Comparable> implements Iterable<T> {
                 throw new NoSuchElementException();
             } else {
                 cursor = i + 1;
-                return (T)elements[this.lastRet = i];
+                return (T) elements[this.lastRet = i];
             }
         }
 

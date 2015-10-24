@@ -11,12 +11,13 @@ public class Tuple implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        int wo = ((Tuple)o).weight;
-        if( weight < wo )
+        int wo = ((Tuple) o).weight;
+        if (weight < wo) {
             return -1;
-        else if( weight > wo )
+        } else if (weight > wo) {
             return 1;
-        else
-            return 0;
+        } else {
+            return this.term.compareTo(((Tuple) o).term);
+        }
     }
 }
