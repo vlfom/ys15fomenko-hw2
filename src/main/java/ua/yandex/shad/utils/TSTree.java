@@ -32,15 +32,23 @@ public class TSTree {
 
     private Node add(Node x, String s, int i, int value) {
         char c = s.charAt(i);
-        if (x == null) {
-            x = new Node();
-            x.c = c;
-        }
         if (c < x.c) {
+            if( x.left == null ) {
+                x.left = new Node();
+                x.left.c = s.charAt(i);
+            }
             x.left = add(x.left, s, i, value);
         } else if (c > x.c) {
+            if( x.right == null ) {
+                x.right = new Node();
+                x.right.c = s.charAt(i);
+            }
             x.right = add(x.right, s, i, value);
         } else if (i + 1 < s.length()) {
+            if( x.middle == null ) {
+                x.middle = new Node();
+                x.middle.c = s.charAt(i+1);
+            }
             x.middle = add(x.middle, s, i + 1, value);
         } else {
             if (x.value == -1) {

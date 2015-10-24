@@ -51,14 +51,28 @@ public class TSTreeTest {
         tsTree.remove("egg");
         assertEquals(0, tsTree.size());
 
-        tsTree.add("banana", 6);
         tsTree.add("article", 7);
+        tsTree.add("arbitrary", 9);
+        assertEquals(2, tsTree.size());
+
+        tsTree.remove("arbitrary");
+        assertEquals(1, tsTree.size());
+
+        tsTree.remove("article");
+        assertEquals(0, tsTree.size());
+
+        tsTree.add("arbitrary", 9);
+        tsTree.add("article", 7);
+        tsTree.add("articled", 8);
+        assertEquals(3, tsTree.size());
+
+        tsTree.remove("articled");
         assertEquals(2, tsTree.size());
 
         tsTree.remove("article");
         assertEquals(1, tsTree.size());
 
-        tsTree.remove("banana");
+        tsTree.remove("arbitrary");
         assertEquals(0, tsTree.size());
     }
 

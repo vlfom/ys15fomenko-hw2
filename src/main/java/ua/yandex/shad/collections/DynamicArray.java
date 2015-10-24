@@ -104,14 +104,6 @@ public class DynamicArray<T extends Comparable> implements Iterable<T> {
         private Itr() {
         }
 
-        public int getCursor() {
-            return cursor;
-        }
-
-        public void setCursor(int cursor) {
-            this.cursor = cursor;
-        }
-
         public boolean hasNext() {
             return cursor != size;
         }

@@ -11,8 +11,8 @@ public class RWayTrie implements Trie {
         NODES_STRING = new String[R * R];
         for (int i = 0; i < R; ++i) {
             for (int j = 0; j < R; ++j) {
-                NODES_STRING[i * R + j] = String.valueOf((char) ('a' + i)) +
-                        String.valueOf((char) ('a' + j));
+                NODES_STRING[i * R + j] = String.valueOf((char) ('a' + i))
+                        + String.valueOf((char) ('a' + j));
             }
         }
     }

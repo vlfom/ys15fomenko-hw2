@@ -37,4 +37,10 @@ public class Tuple implements Comparable {
             return this.term.compareTo(o.term);
         }
     }
+
+    @Override
+    public int hashCode() {
+        assert false : "hashCode not designed";
+        return 42;
+    }
 }
