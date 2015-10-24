@@ -91,7 +91,7 @@ public class TSTreeTest {
         DynamicArray<Tuple> tuples = tsTree.toTupleArray();
         assertEquals(9, tuples.size());
         for (Tuple tuple : tuples) {
-            assertEquals(tuple.weight, tuple.term.length());
+            assertEquals(tuple.getWeight(), tuple.getTerm().length());
         }
     }
 }
