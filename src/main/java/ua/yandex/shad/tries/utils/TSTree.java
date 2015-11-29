@@ -11,21 +11,9 @@ import java.util.Iterator;
 public class TSTree implements Iterable<Tuple> {
     private Node root;
     private int size;
-    private String prefix;
 
     public TSTree(String prefix) {
-        this.prefix = prefix;
         root = new Node(null);
-    }
-
-    private TSTree(Node root, String prefix) {
-        this.prefix = prefix;
-        if (root != null) {
-            this.root = root;
-            this.size = toTupleArray().size();
-        } else {
-            this.root = new Node(null);
-        }
     }
 
     public int size() {
@@ -254,7 +242,7 @@ public class TSTree implements Iterable<Tuple> {
         }
     }
 
-    private class Itr implements Iterator<Tuple> {
+    private static class Itr implements Iterator<Tuple> {
         private Node last;
         private String text;
         private int minDepth;
@@ -282,8 +270,8 @@ public class TSTree implements Iterable<Tuple> {
                 if (get == null) {
                     return false;
                 }
-                nextNode = get.first;
-                nextText = get.second;
+                nextNode = get.getFirst();
+                nextText = get.getSecond();
             } while (nextNode.value == -1);
             return true;
         }
@@ -294,8 +282,8 @@ public class TSTree implements Iterable<Tuple> {
             String nextText = text;
             do {
                 Pair<Node, String> get = nextNode.getNext(nextText, minDepth);
-                nextNode = get.first;
-                nextText = get.second;
+                nextNode = get.getFirst();
+                nextText = get.getSecond();
             } while (nextNode.value == -1);
             last = nextNode;
             text = nextText;

@@ -18,7 +18,7 @@ public class DynamicArray<T extends Comparable> implements Iterable<T> {
     public DynamicArray(Iterable<T> ts) {
         this();
         int newSize = 0;
-        for (T t : ts) {
+        for (T ignored : ts) {
             newSize += 1;
         }
         ensureCapacity(newSize);

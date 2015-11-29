@@ -23,12 +23,11 @@ public class Tuple implements Comparable {
             return false;
         }
         Tuple that = (Tuple) x;
-        if ((this.term == null) != (that.term == null)) {
-            return false;
-        } else if (this.term == null) {
-            return this.weight == that.weight;
+        if (this.term == null) {
+            return that.term == null && this.weight == that.weight;
         } else {
-            return that.term.equals(this.term) && that.weight == this.weight;
+            return that.term != null && that.term.equals(this.term)
+                    && that.weight == this.weight;
         }
     }
 

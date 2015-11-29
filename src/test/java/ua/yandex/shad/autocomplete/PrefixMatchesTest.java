@@ -7,8 +7,6 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -20,8 +18,8 @@ public class PrefixMatchesTest {
     @Before
     public void setUp() throws Exception {
         File file = new File("src/test/resources/words-test.txt");
-        InputStreamReader reader = new InputStreamReader(new FileInputStream
-                (file));
+        InputStreamReader reader = new InputStreamReader(
+                new FileInputStream(file));
         Scanner scanner = new Scanner(reader);
         int n = scanner.nextInt(), k = 0;
         long w;
