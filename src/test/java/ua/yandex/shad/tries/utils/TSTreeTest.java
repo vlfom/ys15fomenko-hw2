@@ -16,7 +16,7 @@ public class TSTreeTest {
     public void setUp() throws Exception {
         String[] words = {"java", "javac", "javavm", "javadoc", "word",
                 "words", "wordy", "wordpad", "wordface"};
-        tsTree = new TSTree("");
+        tsTree = new TSTree();
         for (String word : words) {
             tsTree.add(word, word.length());
         }
@@ -31,7 +31,7 @@ public class TSTreeTest {
     public void testSizeAddRemove() throws Exception {
         assertEquals(9, tsTree.size());
 
-        tsTree = new TSTree("");
+        tsTree = new TSTree();
         assertEquals(0, tsTree.size());
 
         tsTree.add("apple", 5);
