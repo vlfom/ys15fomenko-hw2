@@ -84,17 +84,17 @@ public class PrefixMatchesTest {
     public void testWordsWithPrefix() throws Exception {
         Iterable<String> matches;
 
-        matches = prefixMatches.wordsWithPrefix("a", 3);
-        assertEquals(matches, null);
+        matches = prefixMatches.wordsWithPrefix("nike");
+        assertEquals(Utils.iterableSize(matches), 5);
+
+        matches = prefixMatches.wordsWithPrefix("nike", 3);
+        assertEquals(Utils.iterableSize(matches), 5);
 
         matches = prefixMatches.wordsWithPrefix("nike", 1);
         assertEquals(Utils.iterableSize(matches), 3);
 
-        matches = prefixMatches.wordsWithPrefix("nike", 2);
-        assertEquals(Utils.iterableSize(matches), 4);
-
-        matches = prefixMatches.wordsWithPrefix("nike");
-        assertEquals(Utils.iterableSize(matches), 5);
+        matches = prefixMatches.wordsWithPrefix("z", 1);
+        assertEquals(Utils.iterableSize(matches), 0);
     }
 
     @Test

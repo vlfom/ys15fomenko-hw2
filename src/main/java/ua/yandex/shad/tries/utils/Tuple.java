@@ -1,4 +1,4 @@
-package ua.yandex.shad.tries;
+package ua.yandex.shad.tries.utils;
 
 public class Tuple implements Comparable {
     private final String term;
@@ -22,19 +22,28 @@ public class Tuple implements Comparable {
         if (!(x instanceof Tuple)) {
             return false;
         }
-        Tuple o = (Tuple) x;
-        return o.term.equals(this.term) && o.weight == this.weight;
+        Tuple that = (Tuple) x;
+        if ((this.term == null) != (that.term == null)) {
+            return false;
+        } else if (this.term == null) {
+            return this.weight == that.weight;
+        } else {
+            return that.term.equals(this.term) && that.weight == this.weight;
+        }
     }
 
     @Override
     public int compareTo(Object x) {
-        Tuple o = (Tuple) x;
-        if (weight < o.weight) {
+        if (!(x instanceof Tuple)) {
             return -1;
-        } else if (weight > o.weight) {
+        }
+        Tuple that = (Tuple) x;
+        if (weight < that.weight) {
+            return -1;
+        } else if (weight > that.weight) {
             return 1;
         } else {
-            return this.term.compareTo(o.term);
+            return this.term.compareTo(that.term);
         }
     }
 

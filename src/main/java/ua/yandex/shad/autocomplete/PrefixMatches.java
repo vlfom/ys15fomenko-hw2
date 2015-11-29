@@ -3,7 +3,7 @@ package ua.yandex.shad.autocomplete;
 import ua.yandex.shad.collections.DynamicArray;
 import ua.yandex.shad.tries.RWayTrie;
 import ua.yandex.shad.tries.Trie;
-import ua.yandex.shad.tries.Tuple;
+import ua.yandex.shad.tries.utils.Tuple;
 
 public class PrefixMatches {
 
@@ -37,15 +37,13 @@ public class PrefixMatches {
     }
 
     public Iterable<String> wordsWithPrefix(String pref, int k) {
-        if (pref.length() < 2) {
-            return null;
+        if (!longEnough(pref)) {
+            return new DynamicArray<>();
         }
         Iterable<String> words = trie.wordsWithPrefix(pref);
-        DynamicArray<String> matchWords = new DynamicArray<>(words);
         DynamicArray<String> bestWords = new DynamicArray<>();
         int lastLen = 0, remK = k;
-        for (int i = 0; i < matchWords.size(); ++i) {
-            String word = matchWords.get(i);
+        for (String word : words) {
             if (word.length() != lastLen) {
                 --remK;
                 if (remK < 0) {
@@ -56,6 +54,10 @@ public class PrefixMatches {
             bestWords.add(word);
         }
         return bestWords;
+    }
+
+    public boolean longEnough(String pref) {
+        return pref.length() >= 2;
     }
 
     public Iterable<String> wordsWithPrefix(String pref) {

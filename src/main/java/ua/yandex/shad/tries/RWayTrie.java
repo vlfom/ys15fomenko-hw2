@@ -1,21 +1,11 @@
 package ua.yandex.shad.tries;
 
 import ua.yandex.shad.collections.DynamicArray;
-import ua.yandex.shad.utils.TSTree;
+import ua.yandex.shad.tries.utils.TSTree;
+import ua.yandex.shad.tries.utils.Tuple;
 
 public class RWayTrie implements Trie {
     private static final int R = 26;
-    private static final String[] NODES_STRING;
-
-    static {
-        NODES_STRING = new String[R * R];
-        for (int i = 0; i < R; ++i) {
-            for (int j = 0; j < R; ++j) {
-                NODES_STRING[i * R + j] = String.valueOf((char) ('a' + i))
-                        + String.valueOf((char) ('a' + j));
-            }
-        }
-    }
 
     private int size;
     private TSTree[] node;
@@ -23,7 +13,9 @@ public class RWayTrie implements Trie {
     public RWayTrie() {
         node = new TSTree[R * R];
         for (int i = 0; i < R * R; ++i) {
-            node[i] = new TSTree();
+            node[i] = new TSTree(
+                    String.valueOf((char) ('a' + i % R)) + String.valueOf(
+                            (char) ('a' + i / R)));
         }
     }
 
@@ -33,14 +25,10 @@ public class RWayTrie implements Trie {
         return (a - 'a') * R + b - 'a';
     }
 
-    private static String getNodeString(int v) {
-        return NODES_STRING[v];
-    }
-
     @Override
     public void add(Tuple t) {
-        boolean added = node[getNodeIndex(t.getTerm())].add(t.getTerm()
-                .substring(2), t.getWeight());
+        boolean added = node[getNodeIndex(t.getTerm())].add(
+                t.getTerm().substring(2), t.getWeight());
         if (added) {
             size++;
         }
@@ -63,11 +51,11 @@ public class RWayTrie implements Trie {
     @Override
     public Iterable<String> words() {
         DynamicArray<Tuple> allTuples = new DynamicArray<>();
-        DynamicArray<Tuple> tuples;
         for (int i = 0; i < R * R; ++i) {
-            tuples = node[i].toTupleArray();
-            for (Tuple tuple : tuples) {
-                allTuples.add(new Tuple(getNodeString(i) + tuple.getTerm(),
+            for (Tuple tuple : node[i]) {
+                allTuples.add(new Tuple(
+                        String.valueOf((char) ('a' + i / R)) + String.valueOf(
+                                (char) ('a' + i % R)) + tuple.getTerm(),
                         tuple.getWeight()));
             }
         }
@@ -81,8 +69,10 @@ public class RWayTrie implements Trie {
 
     @Override
     public Iterable<String> wordsWithPrefix(String s) {
-        DynamicArray<Tuple> tuples = new TSTree(node[getNodeIndex(s)].find(s
-                .substring(2))).toTupleArray();
+        DynamicArray<Tuple> tuples = new DynamicArray<>();
+        for (Tuple tuple : node[getNodeIndex(s)].find(s.substring(2))) {
+            tuples.add(tuple);
+        }
         tuples.sort();
         DynamicArray<String> words = new DynamicArray<>();
         for (Tuple tuple : tuples) {

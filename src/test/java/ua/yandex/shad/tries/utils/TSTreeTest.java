@@ -1,10 +1,11 @@
-package ua.yandex.shad.utils;
+package ua.yandex.shad.tries.utils;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ua.yandex.shad.collections.DynamicArray;
-import ua.yandex.shad.tries.Tuple;
+
+import java.util.Iterator;
 
 import static org.junit.Assert.*;
 
@@ -15,7 +16,7 @@ public class TSTreeTest {
     public void setUp() throws Exception {
         String[] words = {"java", "javac", "javavm", "javadoc", "word",
                 "words", "wordy", "wordpad", "wordface"};
-        tsTree = new TSTree();
+        tsTree = new TSTree("");
         for (String word : words) {
             tsTree.add(word, word.length());
         }
@@ -30,7 +31,7 @@ public class TSTreeTest {
     public void testSizeAddRemove() throws Exception {
         assertEquals(9, tsTree.size());
 
-        tsTree = new TSTree(null);
+        tsTree = new TSTree("");
         assertEquals(0, tsTree.size());
 
         tsTree.add("apple", 5);
@@ -78,12 +79,7 @@ public class TSTreeTest {
 
     @Test
     public void testFind() throws Exception {
-        Object node;
-        node = tsTree.find("egg");
-        assertNull(node);
-
-        TSTree nodeTree = new TSTree(tsTree.find("ja"));
-        assertEquals(4, nodeTree.size());
+        assertEquals(0, Utils.iterableSize(tsTree.find("egg")));
     }
 
     @Test
@@ -106,6 +102,18 @@ public class TSTreeTest {
         assertEquals(9, tuples.size());
         for (Tuple tuple : tuples) {
             assertEquals(tuple.getWeight(), tuple.getTerm().length());
+        }
+    }
+
+    private static class Utils {
+        public static int iterableSize(Iterable i) {
+            Iterator x = i.iterator();
+            int size = 0;
+            while (x.hasNext()) {
+                ++size;
+                x.next();
+            }
+            return size;
         }
     }
 }

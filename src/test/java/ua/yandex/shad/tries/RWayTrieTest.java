@@ -3,6 +3,7 @@ package ua.yandex.shad.tries;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ua.yandex.shad.tries.utils.Tuple;
 
 import static org.junit.Assert.*;
 
@@ -59,12 +60,12 @@ public class RWayTrieTest {
     public void testWords() throws Exception {
         String[] input = {"aba", "aka", "abaka", "akaba", "babaka", "bakaba"};
         rWayTrie = new RWayTrie();
-        for( String word: input ) {
+        for (String word : input) {
             rWayTrie.add(new Tuple(word, word.length()));
         }
         int i = 0;
         Iterable<String> words = rWayTrie.words();
-        for( String word:words ) {
+        for (String word : words) {
             assertEquals(word, input[i++]);
         }
     }
@@ -73,13 +74,13 @@ public class RWayTrieTest {
     public void testWordsWithPrefix() throws Exception {
         String[] input = {"aba", "aka", "abaka", "akaba", "babaka", "bakaba"};
         rWayTrie = new RWayTrie();
-        for( String word: input ) {
+        for (String word : input) {
             rWayTrie.add(new Tuple(word, word.length()));
         }
         int i = 4;
         Iterable<String> words = rWayTrie.wordsWithPrefix("ba");
-        for( String word:words ) {
-            assertEquals(word,input[i++]);
+        for (String word : words) {
+            assertEquals(word, input[i++]);
         }
     }
 

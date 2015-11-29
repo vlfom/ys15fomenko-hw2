@@ -1,6 +1,7 @@
 package ua.yandex.shad.tries;
 
 import org.junit.Test;
+import ua.yandex.shad.tries.utils.Tuple;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
