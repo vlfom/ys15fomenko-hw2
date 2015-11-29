@@ -26,8 +26,8 @@ public class Tuple implements Comparable {
         if (this.term == null) {
             return that.term == null && this.weight == that.weight;
         } else {
-            return that.term != null && that.term.equals(this.term)
-                    && that.weight == this.weight;
+            return that.term != null && that.term.equals(
+                    this.term) && that.weight == this.weight;
         }
     }
 

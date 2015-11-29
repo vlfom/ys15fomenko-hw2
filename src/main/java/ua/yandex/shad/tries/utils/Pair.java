@@ -19,15 +19,7 @@ public class Pair<T, E> {
         return first;
     }
 
-    public void setFirst(T first) {
-        this.first = first;
-    }
-
     public E getSecond() {
         return second;
-    }
-
-    public void setSecond(E second) {
-        this.second = second;
     }
 }

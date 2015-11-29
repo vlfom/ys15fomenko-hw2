@@ -16,6 +16,8 @@ public class TupleTest {
         Tuple tuple3 = new Tuple("word", 4);
         Tuple tuple4 = new Tuple("banan", 5);
         Tuple tuple5 = new Tuple("test", 5);
+        Tuple tuple6 = new Tuple(null, 6);
+        Tuple tuple7 = new Tuple(null, 6);
         assertEquals(0, tuple1.compareTo(tuple2));
         assertTrue(tuple1.compareTo(tuple3) < 0);
         assertTrue(tuple1.compareTo(tuple4) < 0);
@@ -26,6 +28,9 @@ public class TupleTest {
         assertTrue(tuple1.equals(tuple2));
         assertFalse(tuple1.equals(tuple3));
         assertFalse(tuple1.equals(tuple5));
+        assertFalse(tuple1.equals(tuple6));
+        assertFalse(tuple7.equals(tuple2));
+        assertFalse(tuple6.equals(tuple7));
 
         assertEquals(42, tuple1.hashCode());
     }

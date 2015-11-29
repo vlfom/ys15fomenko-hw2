@@ -13,9 +13,7 @@ public class RWayTrie implements Trie {
     public RWayTrie() {
         node = new TSTree[R * R];
         for (int i = 0; i < R * R; ++i) {
-            node[i] = new TSTree(
-                    String.valueOf((char) ('a' + i % R)) + String.valueOf(
-                            (char) ('a' + i / R)));
+            node[i] = new TSTree();
         }
     }
 

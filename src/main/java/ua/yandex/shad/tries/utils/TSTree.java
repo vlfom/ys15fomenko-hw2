@@ -12,7 +12,7 @@ public class TSTree implements Iterable<Tuple> {
     private Node root;
     private int size;
 
-    public TSTree(String prefix) {
+    public TSTree() {
         root = new Node(null);
     }
 
