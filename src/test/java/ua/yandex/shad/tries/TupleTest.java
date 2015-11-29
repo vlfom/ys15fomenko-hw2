@@ -30,7 +30,7 @@ public class TupleTest {
         assertFalse(tuple1.equals(tuple5));
         assertFalse(tuple1.equals(tuple6));
         assertFalse(tuple7.equals(tuple2));
-        assertFalse(tuple6.equals(tuple7));
+        assertTrue(tuple6.equals(tuple7));
 
         assertEquals(42, tuple1.hashCode());
     }
