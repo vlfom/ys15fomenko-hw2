@@ -19,6 +19,7 @@ public class TupleTest {
         Tuple tuple6 = new Tuple(null, 6);
         Tuple tuple7 = new Tuple(null, 6);
         assertEquals(0, tuple1.compareTo(tuple2));
+        assertTrue(tuple1.compareTo("x") < 0);
         assertTrue(tuple1.compareTo(tuple3) < 0);
         assertTrue(tuple1.compareTo(tuple4) < 0);
         assertTrue(tuple3.compareTo(tuple1) > 0);

@@ -3,6 +3,7 @@ package ua.yandex.shad.tries;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ua.yandex.shad.collections.DynamicArray;
 import ua.yandex.shad.tries.utils.Tuple;
 
 import static org.junit.Assert.*;
@@ -58,7 +59,7 @@ public class RWayTrieTest {
 
     @Test
     public void testWords() throws Exception {
-        String[] input = {"aba", "aka", "abaka", "akaba", "babaka", "bakaba"};
+        String[] input = {"aba", "abaka", "aka", "akaba", "babaka", "bakaba"};
         rWayTrie = new RWayTrie();
         for (String word : input) {
             rWayTrie.add(new Tuple(word, word.length()));
