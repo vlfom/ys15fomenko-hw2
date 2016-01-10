@@ -17,7 +17,7 @@ public class PrefixMatchesTest {
 
     @Before
     public void setUp() throws Exception {
-        File file = new File("resources/words-test.txt");
+        File file = new File("src/test/resources/words-test.txt");
         InputStreamReader reader = new InputStreamReader(
                 new FileInputStream(file));
         Scanner scanner = new Scanner(reader);
