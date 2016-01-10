@@ -8,6 +8,17 @@ import java.util.Iterator;
 
 public class RWayTrie implements Trie {
     private static final int R = 26;
+    private static final String[] NODES_PREFIXES;
+
+    static {
+        NODES_PREFIXES = new String[R * R];
+        for (int i = 0; i < R; ++i) {
+            for (int j = 0; j < R; ++j) {
+                NODES_PREFIXES[i * R + j] = String.valueOf((char) ('a' + i))
+                        + String.valueOf((char) ('a' + j));
+            }
+        }
+    }
 
     private int size;
     private Node[] node;
@@ -23,11 +34,6 @@ public class RWayTrie implements Trie {
         char a = Character.toLowerCase(s.charAt(0)),
                 b = Character.toLowerCase(s.charAt(1));
         return (a - 'a') * R + b - 'a';
-    }
-
-    private static String getNodePrefix(int i) {
-        return String.valueOf((char) ('a' + i / R)) + String.valueOf(
-                (char) ('a' + i % R));
     }
 
     @Override
@@ -151,23 +157,18 @@ public class RWayTrie implements Trie {
 
     @Override
     public Iterable<String> words() {
-        DynamicArray<String> words = new DynamicArray<>();
-        for (int i = 0; i < R * R; ++i) {
-            String nodePrefix = getNodePrefix(i);
-            for (Tuple tuple : node[i]) {
-                words.add(nodePrefix + tuple.getTerm());
-            }
-        }
-        return words;
+        return new NodeIterator(
+                node,
+                NODES_PREFIXES
+        );
     }
 
     @Override
     public Iterable<String> wordsWithPrefix(String s) {
-        DynamicArray<String> words = new DynamicArray<>();
-        for (Tuple tuple : find(node[getNodeIndex(s)], s.substring(2))) {
-            words.add(s + tuple.getTerm());
-        }
-        return words;
+        return new NodeIterator(
+                new Node[]{ find(node[getNodeIndex(s)], s.substring(2)) },
+                new String[]{ s.substring(0,2) }
+        );
     }
 
     @Override
@@ -175,7 +176,7 @@ public class RWayTrie implements Trie {
         return size;
     }
 
-    private static class Node implements Iterable<Tuple> {
+    private static class Node {
         Node left;
         Node middle;
         Node right;
@@ -197,13 +198,71 @@ public class RWayTrie implements Trie {
         public int getDepth() {
             return depth;
         }
+    }
 
-        @Override
-        public Iterator<Tuple> iterator() {
-            return new Itr(this);
+    private class NodeIterator implements Iterable<String> {
+        private Node[] nodes;
+        private String[] prefixes;
+
+        public NodeIterator(Node[] nodes, String[] prefixes) {
+            this.nodes = nodes;
+            this.prefixes = prefixes;
         }
 
-        private class Itr implements Iterator<Tuple> {
+        @Override
+        public Iterator<String> iterator() {
+            return new ComplexItr();
+        }
+
+        private class ComplexItr implements Iterator<String> {
+            private int i;
+            private Itr iterator;
+
+            public ComplexItr() {
+                i = 0;
+                iterator = null;
+            }
+
+            @Override
+            public boolean hasNext() {
+                if (iterator == null) {
+                    if (i < nodes.length) {
+                        iterator = new Itr(nodes[i]);
+                        ++i;
+                        return hasNext();
+                    } else {
+                        return false;
+                    }
+                } else {
+                    if (iterator.hasNext()) {
+                        return true;
+                    } else {
+                        if (i < nodes.length) {
+                            iterator = new Itr(nodes[i]);
+                            ++i;
+                            return hasNext();
+                        } else {
+                            iterator = null;
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public String next() {
+                if (!hasNext()) {
+                    return null;
+                }
+                return prefixes[i-1] + iterator.next();
+            }
+
+            @Override
+            public void remove() {
+            }
+        }
+
+        private class Itr implements Iterator<String> {
             private Node last;
             private String text;
             private int minDepth;
@@ -239,7 +298,7 @@ public class RWayTrie implements Trie {
             }
 
             @Override
-            public Tuple next() {
+            public String next() {
                 Node nextNode = last;
                 String nextText = text;
                 do {
@@ -250,7 +309,7 @@ public class RWayTrie implements Trie {
                 } while (nextNode.value == -1);
                 last = nextNode;
                 text = nextText;
-                return new Tuple(text, last.value);
+                return text;
             }
 
             @Override
@@ -259,6 +318,7 @@ public class RWayTrie implements Trie {
 
             private Pair<Node, String> getNext(Node x, String word, int
                     minDepth) {
+
                 Node get;
                 if (x.middle != null) {
                     get = leftmost(x.middle);
